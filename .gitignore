@@ -1,3 +1,8 @@
+# OpenWhale
+.env
+brain/MEMORIES.md
+logs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

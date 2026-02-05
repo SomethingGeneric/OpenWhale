@@ -21,16 +21,21 @@ class MyClient(discord.Client):
 
         async with message.channel.typing():
             # Run the blocking tool loop in a thread so typing stays active.
-            result = await asyncio.to_thread(tool_loop, message.content)
+            result = await asyncio.to_thread(
+                tool_loop, message.content, str(message.channel.id)
+            )
 
         max_chunk_size = 1000
-        chunks = [result[i : i + max_chunk_size] for i in range(0, len(result), max_chunk_size)] or [
-            ""
-        ]
+        chunks = [
+            result[i : i + max_chunk_size]
+            for i in range(0, len(result), max_chunk_size)
+        ] or [""]
 
         first_chunk = chunks[0]
         first_content = (
-            f"{message.author.mention}\n{first_chunk}" if first_chunk else message.author.mention
+            f"{message.author.mention}\n{first_chunk}"
+            if first_chunk
+            else message.author.mention
         )
         await m.edit(content=first_content)
 
